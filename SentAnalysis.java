@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class SentAnalysis {
 
@@ -73,19 +74,19 @@ public class SentAnalysis {
 	 */
 	public static void train(ArrayList<String> files) throws FileNotFoundException
 	{
-		HashMap<String, int> word_count_pos = new HashMap<String, Integer>();
-		HashMap<String, int> word_count_neg = new HashMap<String, Integer>();
+		HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
+		HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
 
 		int pos_count = 0;
 		int neg_count = 0;
-		Pattern pos_file = Pattern.compile("[a-z]*-5-[0-9]*")
+		Pattern pos_file = Pattern.compile("[a-z]*-5-[0-9]*");
 
 		for(int file = 0; file < files.size(); file++){
-			if(Pattern.matches("([a-z])*-5-([0-9])*.txt", files[file])){
-				populateMap(files[file], word_count_pos);
+			if(Pattern.matches("([a-z])*-5-([0-9])*.txt", files.get(file))){
+				populateMap(files.get(file), word_count_pos);
 			}
 			else{
-				populateMap(files[file], word_count_neg);
+				populateMap(files.get(file), word_count_neg);
 			}
 		}
 
@@ -94,8 +95,8 @@ public class SentAnalysis {
 		
 	}
 
-	public static void populateMap(String file_name, HashMap<String, Integer> hashmap){
-		File review = new File(filename);
+	public static void populateMap(String file_name, HashMap<String, Integer> hashmap) throws FileNotFoundException{
+		File review = new File("testingtrain/"+file_name);
 		Scanner input = new Scanner(review);
 
 		input.useDelimiter(" +");
@@ -104,14 +105,14 @@ public class SentAnalysis {
 			int value = 0;
 			String next_word = input.next();
 
-			if(hashmap.get(next_word).equals(null)){
+			if(hashmap.get(next_word) == null){
 				value = 1;
 			}else{
 				value = hashmap.get(next_word);
 				value++;
 			}
 			
-			hashmap.put(input.next, value);
+			hashmap.put(next_word, value);
 		}
 
 	}	
@@ -123,8 +124,6 @@ public class SentAnalysis {
 	public static String classify(String text)
 	{
 		String result="";
-		
-		result = evaluate(text);
 
 		return result;
 
