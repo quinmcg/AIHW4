@@ -11,6 +11,12 @@ import java.util.regex.Pattern;
 
 public class SentAnalysis {
 
+	HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
+	HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
+
+	int pos_count = 0;
+	int neg_count = 0;
+
 	final static File TRAINFOLDER = new File("testingtrain");
 	
 	public static void main(String[] args) throws IOException
@@ -74,19 +80,16 @@ public class SentAnalysis {
 	 */
 	public static void train(ArrayList<String> files) throws FileNotFoundException
 	{
-		HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
-		HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
-
-		int pos_count = 0;
-		int neg_count = 0;
 		Pattern pos_file = Pattern.compile("[a-z]*-5-[0-9]*");
 
 		for(int file = 0; file < files.size(); file++){
 			if(Pattern.matches("([a-z])*-5-([0-9])*.txt", files.get(file))){
 				populateMap(files.get(file), word_count_pos);
+				oos_count++;
 			}
 			else{
 				populateMap(files.get(file), word_count_neg);
+				neg_count++;
 			}
 		}
 
@@ -96,7 +99,7 @@ public class SentAnalysis {
 	}
 
 	public static void populateMap(String file_name, HashMap<String, Integer> hashmap) throws FileNotFoundException{
-		File review = new File("testingtrain/"+file_name);
+		File review = new File("train/"+file_name);
 		Scanner input = new Scanner(review);
 
 		input.useDelimiter(" +");
@@ -105,6 +108,9 @@ public class SentAnalysis {
 			int value = 0;
 			String next_word = input.next();
 
+			next_word = next_word.replaceAll("\\p{Punct}", "");
+			next_word = next_word.toLowerCase();
+
 			if(hashmap.get(next_word) == null){
 				value = 1;
 			}else{
@@ -112,7 +118,7 @@ public class SentAnalysis {
 				value++;
 			}
 			
-			hashmap.put(next_word, value);
+			hashmap.put(next_word, value);	
 		}
 
 	}	
