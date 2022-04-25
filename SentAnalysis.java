@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
 
 public class SentAnalysis {
 
-	HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
-	HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
+	protected static HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
+	protected static HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
 
-	int pos_count = 0;
-	int neg_count = 0;
+	protected static int pos_count = 0;
+	protected static int neg_count = 0;
 
 	final static File TRAINFOLDER = new File("testingtrain");
 	
@@ -85,7 +85,7 @@ public class SentAnalysis {
 		for(int file = 0; file < files.size(); file++){
 			if(Pattern.matches("([a-z])*-5-([0-9])*.txt", files.get(file))){
 				populateMap(files.get(file), word_count_pos);
-				oos_count++;
+				pos_count++;
 			}
 			else{
 				populateMap(files.get(file), word_count_neg);
