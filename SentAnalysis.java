@@ -18,7 +18,7 @@ public class SentAnalysis {
 	int neg_count = 0;
 
 	final static File TRAINFOLDER = new File("testingtrain");
-	
+
 	public static void main(String[] args) throws IOException
 	{
 		ArrayList<String> files = readFiles(TRAINFOLDER);
@@ -95,7 +95,7 @@ public class SentAnalysis {
 
 		System.out.println("Positive Hashmap: " + word_count_pos);
 		System.out.println("Negative Hashmap: " + word_count_neg);
-		
+
 	}
 
 	public static void populateMap(String file_name, HashMap<String, Integer> hashmap) throws FileNotFoundException{
@@ -117,11 +117,11 @@ public class SentAnalysis {
 				value = hashmap.get(next_word);
 				value++;
 			}
-			
-			hashmap.put(next_word, value);	
+
+			hashmap.put(next_word, value);
 		}
 
-	}	
+	}
 
 
 	/*
@@ -154,7 +154,10 @@ public class SentAnalysis {
 
 		ArrayList<String> filesToClassify = readFiles(folder);
 
-
+		// Iterate over all files in filesToClassify
+		// call classify on each individual file
+		// store that result in an ArrayList of "positive" and "negative" classifications
+		// return the ArrayList
 
 	}
 
