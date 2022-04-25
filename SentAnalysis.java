@@ -161,7 +161,7 @@ public class SentAnalysis {
 
 
 		prob_result_pos = log2(pr_positive);
-		System.out.println("Initial: " + prob_result_pos);
+		//System.out.println("Initial: " + prob_result_pos);
 
 		prob_result_neg = log2(pr_negative);
 
@@ -169,15 +169,15 @@ public class SentAnalysis {
 		double n_word_neg = 0;
 
 		for (int w = 0; w < words.size(); w++){
-			System.out.println("Word: " + words.get(w));
+			//System.out.println("Word: " + words.get(w));
 			double curr_conditionalprob_neg = 0;
 			double curr_conditionalprob_pos = 0;
 			if (word_count_pos.get(words.get(w)) == null){
-				System.out.println(w + " is NULL in positive");
+				//System.out.println(w + " is NULL in positive");
 				n_word_pos = 0;
 			}
 			if(word_count_neg.get(words.get(w)) == null){
-				System.out.println(w + " is NULL in negative");
+				//System.out.println(w + " is NULL in negative");
 				n_word_neg = 0;
 			}
 			if (word_count_neg.get(words.get(w)) != null){
@@ -190,15 +190,15 @@ public class SentAnalysis {
 			double lambda = 0.0001;
 
 			curr_conditionalprob_neg = (n_word_neg + lambda) / (word_count_neg.size() + (words.size() * lambda));
-			System.out.println(curr_conditionalprob_neg);
+			//System.out.println(curr_conditionalprob_neg);
 			curr_conditionalprob_pos = (n_word_pos + lambda) / (word_count_pos.size() + (words.size() * lambda));
-			System.out.println(curr_conditionalprob_pos);
+			//System.out.println(curr_conditionalprob_pos);
 
 
 			prob_result_neg += log2(curr_conditionalprob_neg);
-			System.out.println("Cummulative Neg: " + prob_result_neg);
+			//System.out.println("Cummulative Neg: " + prob_result_neg);
 			prob_result_pos += log2(curr_conditionalprob_pos);
-			System.out.println("Pos: " + prob_result_pos);
+			//System.out.println("Pos: " + prob_result_pos);
 
 
 		}
