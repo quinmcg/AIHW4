@@ -85,7 +85,7 @@ public class SentAnalysis {
 		for(int file = 0; file < files.size(); file++){
 			if(Pattern.matches("([a-z])*-5-([0-9])*.txt", files.get(file))){
 				populateMap(files.get(file), word_count_pos);
-				oos_count++;
+				pos_count++;
 			}
 			else{
 				populateMap(files.get(file), word_count_neg);
