@@ -129,7 +129,32 @@ public class SentAnalysis {
 	 */
 	public static String classify(String text)
 	{
+		//initialize our results to 0
+		double prob_result_pos = 0;
+		double prob_result_neg = 0;
+
+		//PROBABILITY TEXT IS POSITIVE SENTIMENT:
+
+		//calculate the Pr(positive) = #positive reviews / total # reviews
+		double pr_positive = ;
+
+
+
+		//PROBABILITY TEXT IS NEGATIVE SENTIMENT:
+
+		//calculate the Pr(negative) = #negative reviews / total # reviews
+		double pr_negative = ;
+
+
+
 		String result="";
+
+		if (prob_result_neg > prob_result_pos){
+			result = "negative";
+		}
+		else{
+			result = "positive";
+		}
 
 		return result;
 
