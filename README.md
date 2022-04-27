@@ -14,6 +14,8 @@ This one fails because, somewhat surprisingly, "ai" is a very positive word acco
 "AI" | Neg: 3.1044543985029585E-5
 "AI" | Pos: 1.7849849745647407E-4
 
+2. 
+
 It was also difficult because the text was only five words, two of which were "filler" words (I and my), which were roughly even probabilities between positive and negative.
 
 
