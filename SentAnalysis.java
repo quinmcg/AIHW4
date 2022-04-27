@@ -53,10 +53,6 @@ public class SentAnalysis {
             System.out.println("Result: "+classify(textToClassify));
         }
 
-
-
-
-
     }
 
 
