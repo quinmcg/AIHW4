@@ -36,8 +36,7 @@ For example: "I really loved watching this movie. NOT" returns positive even tho
 	test (folder) - folder with test examples
 
 3. Bugs 
-	-Our negative precision is slightly below point of reference but our positive is slightly above.
-	-Our restructuring of how we classify in our Best classifier lowers our positive precision slightly but drastically improves our negative.
+	Works as expected and as defined
 
 4. 
 	Our accuracy on SentAnalysis (normal classifier) from test folder was:
@@ -49,6 +48,18 @@ For example: "I really loved watching this movie. NOT" returns positive even tho
 		Positive Precision: 78.7%
 		Negative Precision: 82.85%
 		Total Precision: 80.71%
+
+	-How our best classifier works
+		Our best classifier doesn't add common stop words to the positive or negative hashmaps. This takes away the weight that they may have on classifying texts. We did this because we noticed that stop words could often influence the skew of a sentence (For example, I word like have appeared a ton of times in every sentence). These words tend to be random and without sentimental value, and therefore shouldn't influence the sentimentality of the text in question. We implemented this by looping through a list of common stop words taken from:  and checking if the new word is in that list. Although this increases the run time of our algorithm, it decreases the amount of space used and most importantly improves the accuracy. 
+		We also changed the value of lambda in our best classifier from 0.00001 to 0.001. We found that this increased our overall accuracy. 
+		Lastly, if a word isn't in either hashmaps (which in our case means it is either a rare word or a filler word) then we make it so that that word doesn't affect our total negative or positive probabilities. This addresses problem 3 mentioned in part 1 (see star at problem 3).
+
+	-Some notes on our accuracy
+		-Our negative precision is slightly below point of reference but our positive is slightly above.
+		-Our restructuring of how we classify in our Best classifier lowers our positive precision slightly but drastically improves our negative.
+		-Overall our base classifier outperforms the point of reference and our improved classifier classifier greatly improves our accuracy over our base classifier.
+
+
 
 All group members were present and contributing during all work on 
 this project
