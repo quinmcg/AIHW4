@@ -49,9 +49,9 @@ public class SentAnalysis {
 		}
 
 		//FINAL ACCURACY / PRECISION PRINT STATEMENTS
-		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos))) + "%";
-		System.out.println("Positive precision: " + 100*(correct_pos/total_pos)) + "%";
-		System.out.println("Negative precision: " + 100*(correct_neg/total_neg))+"%";
+		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos)) + "%");
+		System.out.println("Positive precision: " + 100*(correct_pos/total_pos) + "%");
+		System.out.println("Negative precision: " + 100*(correct_neg/total_neg) +"%");
 
 
 
