@@ -34,8 +34,21 @@ For example: "I really loved watching this movie. NOT" returns positive even tho
 	SentAnalysisBest.java - our improved classifier
 	stop_words_english.txt - text files containing our stop words
 	test (folder) - folder with test examples
-3.
+
+3. Bugs 
+	-Our negative precision is slightly below point of reference but our positive is slightly above.
+	-Our restructuring of how we classify in our Best classifier lowers our positive precision slightly but drastically improves our negative.
+
 4. 
+	Our accuracy on SentAnalysis (normal classifier) from test folder was:
+		Positive Precision: 79.24 %
+		Negative Precision: 75.57 %
+		Total Precision: 77.46%
+
+	Our accuracy on SentAnalysisBest (improved classifier) from test folder was:
+		Positive Precision: 78.7%
+		Negative Precision: 82.85%
+		Total Precision: 80.71%
 
 All group members were present and contributing during all work on 
 this project
