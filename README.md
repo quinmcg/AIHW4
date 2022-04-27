@@ -62,7 +62,7 @@ For example: "I really loved watching this movie. NOT" returns positive even tho
 	- How it can be further improved:
 		- Potentially we could add neutral classification if the resulting probabilities the word is negative/positive are really close (it isn't clearly positive or negative)
 		- we could maybe include some measure of exclamation point/general punctuation. An exclamation could be weighted to highlight that there is extra emphasis.
-		
+
 
 
 All group members were present and contributing during all work on
