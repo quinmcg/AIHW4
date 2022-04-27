@@ -22,6 +22,12 @@ public class SentAnalysis {
 
 	final static File TRAINFOLDER = new File("train");
 
+	public static double correct_pos = 0;
+	public static double correct_neg = 0;
+	public static double total_pos = 0;
+	public static double total_neg = 0;
+
+
 	public static void main(String[] args) throws IOException
 	{
 		ArrayList<String> files = readFiles(TRAINFOLDER);
@@ -38,6 +44,11 @@ public class SentAnalysis {
 			String textToClassify = scan.nextLine();
 			System.out.println("Result: "+classify(textToClassify));
 		}
+
+		System.out.println("Positive precision: " + (correct_pos/total_pos));
+		System.out.println("Negative precision: " + (correct_neg/total_neg));
+		System.out.println("Total Accuracy: " + ((correct_neg + correct_pos)/(total_neg+total_pos)));
+
 
 	}
 
@@ -248,9 +259,25 @@ public class SentAnalysis {
 			catch (IOException e) {
             	e.printStackTrace();
         	}
-			String result = classify(inputtext);	//classify this input text as positive or negative
-			System.out.println("File: " + foldername + "/" + filesToClassify.get(i));	//print what file we're classifying
-			System.out.println("Result: " + result);	//print the classification
+
+			String result = classify(inputtext);
+
+			if(Pattern.matches("([a-z])*-5-([0-9])*.txt", filesToClassify.get(i))){
+				if(result.equals("positive")){
+					correct_pos++;
+				}
+				total_pos++;
+			}
+			else{
+				if(result.equals("negative")){
+					correct_neg++;
+				}
+				total_neg++;
+			}
+			//classify this input text as positive or negative
+			System.out.println("File: " + foldername + "/" + filesToClassify.get(i));//print what file we're classifying
+			System.out.println("Result: " + result);//print the classification
+
 		}
 
 	}
