@@ -1,6 +1,9 @@
 /*
-* Please see submission instructions for what to write here.
-*/
+ * All group members were present for all parts of this project.
+ * We have neither given nor received any unauthorized aid in the completion of this assignment.
+ *
+ * Authors: Quin McGaugh + Otis Milliken
+ */
 
 import java.io.*;
 import java.nio.file.Files;
