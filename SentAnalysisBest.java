@@ -12,26 +12,34 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SentAnalysis {
+public class SentAnalysisBest {
 
+	//HASHMAP FOR POSITIVE AND NEGATIVE WORDS (WORD: #TIMES APPEARED IN RESPECTIVE FILES)
 	protected static HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
 	protected static HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
 
+	//TOTAL NUMBER OF POSITIVE AND NEGATIVE REVIEWS
 	protected static int pos_count = 0;
 	protected static int neg_count = 0;
 
 	final static File TRAINFOLDER = new File("train");
 
+	//TOTALS FOR CALCULATING ACCURACY AND PRECISION
 	public static double correct_pos = 0;
 	public static double correct_neg = 0;
 	public static double total_pos = 0;
 	public static double total_neg = 0;
+
+	//STOP WORDS
+	public static ArrayList<String> stopwords;
 
 
 	public static void main(String[] args) throws IOException
 	{
 		ArrayList<String> files = readFiles(TRAINFOLDER);
 
+		//READ IN OUR STOP WORDS
+		readStops();
 		train(files);
 		//if command line argument is "evaluate", runs evaluation mode
 		if (args.length==1 && args[0].equals("evaluate")){
@@ -45,9 +53,10 @@ public class SentAnalysis {
 			System.out.println("Result: "+classify(textToClassify));
 		}
 
-		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos))) + "%";
-		System.out.println("Positive precision: " + 100*(correct_pos/total_pos)) + "%";
-		System.out.println("Negative precision: " + 100*(correct_neg/total_neg))+"%";
+		//FINAL ACCURACY / PRECISION PRINT STATEMENTS
+		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos)) + "%");
+		System.out.println("Positive precision: " + 100*(correct_pos/total_pos) + "%");
+		System.out.println("Negative precision: " + 100*(correct_neg/total_neg)+"%");
 
 
 
@@ -126,14 +135,23 @@ public class SentAnalysis {
 			next_word = next_word.replaceAll("\\p{Punct}", "");
 			next_word = next_word.toLowerCase();
 
-			if(hashmap.get(next_word) == null){
-				value = 1;
-			}else{
-				value = hashmap.get(next_word);
-				value++;
-			}
+			boolean nextwordisstop = false;
 
-			hashmap.put(next_word, value);
+			for (int e = 0; e < stopwords.size(); e++){
+				if(next_word.equals(stopwords.get(e))){
+					nextwordisstop = true;
+				}
+			}
+			if(!nextwordisstop){
+				if(hashmap.get(next_word) == null){
+					value = 1;
+				}else{
+					value = hashmap.get(next_word);
+					value++;
+				}
+
+				hashmap.put(next_word, value);
+			}
 		}
 
 	}
@@ -177,40 +195,43 @@ public class SentAnalysis {
 
 		prob_result_neg = log2(pr_negative);
 
-		double n_word_pos = 0;
-		double n_word_neg = 0;
+		double num_word_pos = 0;
+		double num_word_neg = 0;
 
 		for (int w = 0; w < words.size(); w++){
 			//System.out.println("Word: " + words.get(w));
 			double curr_conditionalprob_neg = 0;
 			double curr_conditionalprob_pos = 0;
 			if (word_count_pos.get(words.get(w)) == null){
-				//System.out.println(w + " is NULL in positive");
-				n_word_pos = 0;
+				num_word_pos = 0;
 			}
 			if(word_count_neg.get(words.get(w)) == null){
-				//System.out.println(w + " is NULL in negative");
-				n_word_neg = 0;
+				num_word_neg = 0;
 			}
 			if (word_count_neg.get(words.get(w)) != null){
-				n_word_neg = word_count_neg.get(words.get(w));
+				num_word_neg = word_count_neg.get(words.get(w));
 			}
 			if (word_count_pos.get(words.get(w)) != null) {
-				n_word_pos = word_count_pos.get(words.get(w));
+				num_word_pos = word_count_pos.get(words.get(w));
 			}
 
-			double lambda = 0.0001;
+			//INCREASED THE LAMBDA
+			double lambda = 0.01;
 
-			curr_conditionalprob_neg = (n_word_neg + lambda) / (word_count_neg.size() + (words.size() * lambda));
-			//System.out.println(curr_conditionalprob_neg);
-			curr_conditionalprob_pos = (n_word_pos + lambda) / (word_count_pos.size() + (words.size() * lambda));
-			//System.out.println(curr_conditionalprob_pos);
+			curr_conditionalprob_neg = (num_word_neg + lambda) / (word_count_neg.size() + (words.size() * lambda));
+			System.out.println(curr_conditionalprob_neg);
+			curr_conditionalprob_pos = (num_word_pos + lambda) / (word_count_pos.size() + (words.size() * lambda));
+			System.out.println(curr_conditionalprob_pos);
 
-
-			prob_result_neg += log2(curr_conditionalprob_neg);
-			//System.out.println("Cummulative Neg: " + prob_result_neg);
-			prob_result_pos += log2(curr_conditionalprob_pos);
-			//System.out.println("Pos: " + prob_result_pos);
+			//RARE/STOP WORDS HAVE 0 IMPACT (disregard distribution of training data)
+			if (num_word_neg + num_word_pos == 0){
+				prob_result_pos += 0;
+				prob_result_neg += 0;
+			}
+			else{
+				prob_result_neg += log2(curr_conditionalprob_neg);
+				prob_result_pos += log2(curr_conditionalprob_pos);
+			}
 
 
 		}
@@ -229,7 +250,27 @@ public class SentAnalysis {
 
 	}
 
+	//GETS A LIST OF STOP WORDS FROM ONLINE DATA BASE:
+	//SOURCE: https://countwordsfree.com/stopwords
+	public static void readStops() throws FileNotFoundException{
 
+		stopwords = new ArrayList<String>();
+
+		File review = new File("stop_words_english.txt");
+		Scanner input = new Scanner(review);
+
+		while(input.hasNext()){
+			int value = 0;
+			String next_word = input.nextLine();
+
+			next_word = next_word.replaceAll("\\p{Punct}", "");
+			next_word = next_word.toLowerCase();
+
+			stopwords.add(next_word);
+		}
+
+
+	}
 
 
 	/*

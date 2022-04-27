@@ -14,14 +14,17 @@ import java.nio.file.Paths;
 
 public class SentAnalysis {
 
+	//HASHMAP FOR POSITIVE AND NEGATIVE WORDS (WORD: #TIMES APPEARED IN RESPECTIVE FILES)
 	protected static HashMap<String, Integer> word_count_pos = new HashMap<String, Integer>();
 	protected static HashMap<String, Integer> word_count_neg = new HashMap<String, Integer>();
 
+	//TOTAL NUMBER OF POSITIVE AND NEGATIVE REVIEWS
 	protected static int pos_count = 0;
 	protected static int neg_count = 0;
 
 	final static File TRAINFOLDER = new File("train");
 
+	//TOTALS FOR CALCULATING ACCURACY AND PRECISION
 	public static double correct_pos = 0;
 	public static double correct_neg = 0;
 	public static double total_pos = 0;
@@ -44,7 +47,8 @@ public class SentAnalysis {
 			String textToClassify = scan.nextLine();
 			System.out.println("Result: "+classify(textToClassify));
 		}
-		
+
+		//FINAL ACCURACY / PRECISION PRINT STATEMENTS
 		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos))) + "%";
 		System.out.println("Positive precision: " + 100*(correct_pos/total_pos)) + "%";
 		System.out.println("Negative precision: " + 100*(correct_neg/total_neg))+"%";
@@ -113,19 +117,23 @@ public class SentAnalysis {
 
 	}
 
+	//FUNCTION TO POPULATE THE TXT FILES INTO OUR POS AND NEG HASHMAPS
 	public static void populateMap(String file_name, HashMap<String, Integer> hashmap) throws FileNotFoundException{
 		File review = new File("train/"+file_name);
 		Scanner input = new Scanner(review);
 
+		//IF 1 OR MORE SPACES SEPARATES THE WORDS
 		input.useDelimiter(" +");
 
 		while(input.hasNext()){
 			int value = 0;
 			String next_word = input.next();
 
+			//REMOVE PUNCTUATION AND MAKE LOWER CASE
 			next_word = next_word.replaceAll("\\p{Punct}", "");
 			next_word = next_word.toLowerCase();
 
+			//IF WORD DOESNT EXIST, ADD IT TO THE HASHMAP
 			if(hashmap.get(next_word) == null){
 				value = 1;
 			}else{
@@ -138,6 +146,7 @@ public class SentAnalysis {
 
 	}
 
+	//OUR FUNCTION FOR CALCULATING LOG BASE 2 USING NATURAL LOG AND LOG RULES
 	public static double log2(double N)
     {
         // calculate log2 N indirectly
@@ -177,8 +186,8 @@ public class SentAnalysis {
 
 		prob_result_neg = log2(pr_negative);
 
-		double n_word_pos = 0;
-		double n_word_neg = 0;
+		double num_word_pos = 0;
+		double num_word_neg = 0;
 
 		for (int w = 0; w < words.size(); w++){
 			//System.out.println("Word: " + words.get(w));
@@ -186,24 +195,24 @@ public class SentAnalysis {
 			double curr_conditionalprob_pos = 0;
 			if (word_count_pos.get(words.get(w)) == null){
 				//System.out.println(w + " is NULL in positive");
-				n_word_pos = 0;
+				num_word_pos = 0;
 			}
 			if(word_count_neg.get(words.get(w)) == null){
 				//System.out.println(w + " is NULL in negative");
-				n_word_neg = 0;
+				num_word_neg = 0;
 			}
 			if (word_count_neg.get(words.get(w)) != null){
-				n_word_neg = word_count_neg.get(words.get(w));
+				num_word_neg = word_count_neg.get(words.get(w));
 			}
 			if (word_count_pos.get(words.get(w)) != null) {
-				n_word_pos = word_count_pos.get(words.get(w));
+				num_word_pos = word_count_pos.get(words.get(w));
 			}
 
 			double lambda = 0.0001;
 
-			curr_conditionalprob_neg = (n_word_neg + lambda) / (word_count_neg.size() + (words.size() * lambda));
+			curr_conditionalprob_neg = (num_word_neg + lambda) / (word_count_neg.size() + (words.size() * lambda));
 			//System.out.println(curr_conditionalprob_neg);
-			curr_conditionalprob_pos = (n_word_pos + lambda) / (word_count_pos.size() + (words.size() * lambda));
+			curr_conditionalprob_pos = (num_word_pos + lambda) / (word_count_pos.size() + (words.size() * lambda));
 			//System.out.println(curr_conditionalprob_pos);
 
 
