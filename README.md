@@ -18,3 +18,12 @@ It was also difficult because the text was only five words, two of which were "f
 
 
 2. 
+3.
+4. 
+
+All group members were present and contributing during all work on 
+this project
+
+I have neither given nor recieved unauthorized aid on this assignment
+
+We recieved a stop word list from: 
