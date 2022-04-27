@@ -117,9 +117,6 @@ public class SentAnalysisBest {
 			}
 		}
 
-		//System.out.println("Positive Hashmap: " + word_count_pos);
-		//System.out.println("Negative Hashmap: " + word_count_neg);
-
 	}
 
 	public static void populateMap(String file_name, HashMap<String, Integer> hashmap) throws FileNotFoundException{
@@ -191,7 +188,6 @@ public class SentAnalysisBest {
 
 
 		prob_result_pos = log2(pr_positive);
-		//System.out.println("Initial: " + prob_result_pos);
 
 		prob_result_neg = log2(pr_negative);
 
@@ -219,9 +215,7 @@ public class SentAnalysisBest {
 			double lambda = 0.01;
 
 			curr_conditionalprob_neg = (num_word_neg + lambda) / (word_count_neg.size() + (words.size() * lambda));
-			System.out.println(curr_conditionalprob_neg);
 			curr_conditionalprob_pos = (num_word_pos + lambda) / (word_count_pos.size() + (words.size() * lambda));
-			System.out.println(curr_conditionalprob_pos);
 
 			//RARE/STOP WORDS HAVE 0 IMPACT (disregard distribution of training data)
 			if (num_word_neg + num_word_pos == 0){
@@ -316,10 +310,6 @@ public class SentAnalysisBest {
 				}
 				total_neg++;
 			}
-			//classify this input text as positive or negative
-			System.out.println("File: " + foldername + "/" + filesToClassify.get(i));//print what file we're classifying
-			System.out.println("Result: " + result);//print the classification
-
 		}
 	}
 
