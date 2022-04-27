@@ -19,7 +19,7 @@ This one fails because, somewhat surprisingly, "ai" is a very positive word acco
 2. Bad at detecting sarcasm. 
 For example: "I really loved watching this movie. NOT" returns positive even though it is clearly sarcastic and intended to be negative. This is especially important for reviews which tend to be sarcastic/funny in nature. 
 
-3. Since our training data has more positive examples than negatives then by construction our sentences with a lot of filler words would have a higher probability of being positive than being negative.
+3. Since our training data has more positive examples than negatives then by construction our sentences with a lot of filler words would have a higher probability of being positive than being negative since each filler word skews a little to the positive.
 
 
 It was also difficult because the text was only five words, two of which were "filler" words (I and my), which were roughly even probabilities between positive and negative.
