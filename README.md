@@ -14,18 +14,26 @@ This one fails because, somewhat surprisingly, "ai" is a very positive word acco
 "AI" | Neg: 3.1044543985029585E-5
 "AI" | Pos: 1.7849849745647407E-4
 
-*This is also not eliminated by our SentAnalysisBest since AI isn't a stop word
+It was also difficult because the text was only five words, two of which were "filler" words (I and my), which were roughly even probabilities between positive and negative.
+
+*This problem is also not eliminated by our SentAnalysisBest since AI isn't a stop word
 
 2. Bad at detecting sarcasm. 
 For example: "I really loved watching this movie. NOT" returns positive even though it is clearly sarcastic and intended to be negative. This is especially important for reviews which tend to be sarcastic/funny in nature. 
 
-3. Since our training data has more positive examples than negatives then by construction our sentences with a lot of filler words would have a higher probability of being positive than being negative since each filler word skews a little to the positive.
+3. Since our training data has more negative unique words than positive unique words (32215 vs 28012) then by construction our sentences with a lot of filler words would have a higher probability of being positive than being negative since each filler word skews a little to the positive. This is because the conditional probability divides the number of times a word appears by the number of unique words. 
+
+* Our improved classifier tries to eliminate the third problem by having words that don't appear in either hashmaps not affect the negative and positive total probabilities. 
+
+4. There might also be too much information in the reviews which cause them to skew the opposite direction. For example, a review could say "The movie started out really amazing and I was excited to watch Jonah Hill but it then ended up being terrible experience". This might read as positive even though the ending sentiment is negative.
 
 
-It was also difficult because the text was only five words, two of which were "filler" words (I and my), which were roughly even probabilities between positive and negative.
-
-
-2. 
+2. To run both classifiers you need:
+	train (folder) - with data to train off of
+	SentAnalysis.java - normal classifier
+	SentAnalysisBest.java - our improved classifier
+	stop_words_english.txt - text files containing our stop words
+	test (folder) - folder with test examples
 3.
 4. 
 
