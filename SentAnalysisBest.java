@@ -44,7 +44,7 @@ public class SentAnalysis {
 			String textToClassify = scan.nextLine();
 			System.out.println("Result: "+classify(textToClassify));
 		}
-		
+
 		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos))) + "%";
 		System.out.println("Positive precision: " + 100*(correct_pos/total_pos)) + "%";
 		System.out.println("Negative precision: " + 100*(correct_neg/total_neg))+"%";
@@ -280,9 +280,6 @@ public class SentAnalysis {
 			System.out.println("Result: " + result);//print the classification
 
 		}
-
 	}
-
-
 
 }
