@@ -39,6 +39,11 @@ public class SentAnalysis {
 		//if command line argument is "evaluate", runs evaluation mode
 		if (args.length==1 && args[0].equals("evaluate")){
 			evaluate();
+
+			//FINAL ACCURACY / PRECISION PRINT STATEMENTS
+			System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos)) + "%");
+			System.out.println("Positive precision: " + 100*(correct_pos/total_pos) + "%");
+			System.out.println("Negative precision: " + 100*(correct_neg/total_neg) +"%");
 		}
 		else{//otherwise, runs interactive mode
 			@SuppressWarnings("resource")
@@ -48,10 +53,7 @@ public class SentAnalysis {
 			System.out.println("Result: "+classify(textToClassify));
 		}
 
-		//FINAL ACCURACY / PRECISION PRINT STATEMENTS
-		System.out.println("Total Accuracy: " + 100*((correct_neg + correct_pos)/(total_neg+total_pos)) + "%");
-		System.out.println("Positive precision: " + 100*(correct_pos/total_pos) + "%");
-		System.out.println("Negative precision: " + 100*(correct_neg/total_neg) +"%");
+		
 
 
 
